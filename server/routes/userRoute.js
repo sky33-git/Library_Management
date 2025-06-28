@@ -11,7 +11,7 @@ const generateToken = (id) => {
 };
 
 router.post('/signup', async (req, res) => {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
 
     try {
 
@@ -22,8 +22,8 @@ router.post('/signup', async (req, res) => {
 
         const user = await User.create({
             email,
-            password, 
-            role: 'user', 
+            password,
+            role: 'user',
         });
 
         res.status(201).json({
@@ -34,22 +34,23 @@ router.post('/signup', async (req, res) => {
         });
     } catch (error) {
         console.error('Signup error:', error);
-        res.status(500).json({ message: 'Server error during signup' });
+        res.status(500).json({ message: 'Server error during signup' })
     }
-});
+})
 
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+
+    const { email, password } = req.body
 
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email })
         if (!user) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials' })
         }
 
-        const isMatch = await user.matchPassword(password);
+        const isMatch = await user.matchPassword(password)
         if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+            return res.status(400).json({ message: 'Invalid credentials' })
         }
 
         res.json({
@@ -57,11 +58,12 @@ router.post('/login', async (req, res) => {
             email: user.email,
             role: user.role,
             token: generateToken(user._id),
-        });
+        })
+
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ message: 'Server error during login' });
     }
-});
+})
 
 module.exports = router;
