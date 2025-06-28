@@ -20,7 +20,7 @@ const Books = () => {
         setLoading(true)
         setError(null)
 
-        const response = await fetch('http://localhost:5000/api/books');
+        const response = await fetch('https://library-management-jguy.onrender.com/api/books');
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)

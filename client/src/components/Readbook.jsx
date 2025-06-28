@@ -22,7 +22,7 @@ const Readbook = () => {
         setLoading(true)
         setError(null)
 
-        const response = await axios.get(`http://localhost:5000/api/books/${bookId}`)
+        const response = await axios.get(`https://library-management-jguy.onrender.com/${bookId}`)
         setBook(response.data);
       }
       catch (err) {

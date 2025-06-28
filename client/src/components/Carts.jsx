@@ -8,7 +8,7 @@ const Cart = () => {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const API_BASE_URL = 'http://localhost:5000/api/carts';
+    const API_BASE_URL = 'https://library-management-jguy.onrender.com/api/carts';
 
     useEffect(() => {
         const fetchCartItems = async () => {
