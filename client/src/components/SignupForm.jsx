@@ -20,8 +20,8 @@ const SignupForm = () => {
 
 
         if (password != rePassword) {
-            setLoading(false);
-            window.alert("enter correct password")
+            setLoading(false)
+            window.alert("Please enter same password")
             setEmail("")
             setPassword("")
             setRePassword("")
@@ -34,22 +34,19 @@ const SignupForm = () => {
                     password,
                 })
 
-
                 if (response.status === 201) {
-                    setSuccess('Account created successfully! Redirecting to login...');
+                    setSuccess('Account created successfully! Redirecting to login...')
                     setTimeout(() => {
                         navigate('/')
-                    }, 2000);
+                    }, 2000)
                 }
             } catch (err) {
-                console.error('Signup error:', err);
-                setError(err.response?.data?.message || 'Failed to create account. Please try again.');
+                console.error('Signup error:', err)
+                setError(err.response?.data?.message || 'Failed to create account. Please try again.')
             } finally {
-                setLoading(false);
+                setLoading(false)
             }
-
         }
-
     };
 
     return (
@@ -84,7 +81,7 @@ const SignupForm = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             required
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                            className="w-full p-3 border mb-3 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                         />
 
                         <input
@@ -125,7 +122,7 @@ const SignupForm = () => {
 
                 <p className="mt-6 text-center text-gray-600">
                     Already have an account?{' '}
-                    <Link to="/login" className="text-indigo-600 hover:underline font-semibold">
+                    <Link to="/" className="text-indigo-600 hover:underline font-semibold">
                         Login
                     </Link>
                 </p>

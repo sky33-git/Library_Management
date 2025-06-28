@@ -1,98 +1,89 @@
-// import axios from 'axios'
-// import { useRef, useState, useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-// const UserLogin = () => {
-
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-
-//   let navigate = useNavigate()
-
-//   let [user, setUser] = useState([])
-//   let [emailError, setEmailError] = useState(false)
-//   let [passwordError, setPasswordError] = useState(false)
+const UserLogin = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         let userApi = await axios.get("http://localhost:5000/api/users/login")
-//         setUser(userApi.data);
-//       } catch (error) {
-//         console.error("Error fetching user data:", error);
-//       }
-//     };
+    const handleSubmit = async (e) => {
 
-//     fetchData()
-//   }, [])
+        e.preventDefault();
+
+        setLoading(true)
+        setError(null);
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/users/login', {
+                email,
+                password,
+            })
+
+            if (response.data && response.data.token) {
+                localStorage.setItem('userToken', response.data.token);
+                localStorage.setItem('userRole', response.data.role);
+                localStorage.setItem('userEmail', response.data.email);
+
+                if (response.data.role === 'admin') {
+                    navigate('/adminportal')
+                } else {
+                    navigate('/userportal')
+                }
+            } else {
+
+                setError('Login failed: Unexpected response from server.')
+            }
+        }
+        catch (err) {
+
+            console.error('Login error:', err);
+            setError(err.response?.data?.message || 'Invalid email or password. Please try again.');
+        }
+        finally {
+            setLoading(false);
+        }
+    }
 
 
-//   const formDetails = useRef()
 
-//   const userData = user.map((ele) => ele)
+    return (
+        <div className="userLogin space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault()
+                <input
+                    required
+                    type="email"
+                    placeholder="Enter User email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800
+            ${error ? 'border-red-500 ring-red-500' : 'border-gray-300'}`}
+                />
 
-//     setEmailError(false)
-//     setPasswordError(false)
+                <input
+                    required
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
 
-//     let emailInput = formDetails.current[0].value
-//     let passInput = formDetails.current[1].value
+                    className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800
+            ${error ? 'border-red-500 ring-red-500' : 'border-gray-300'}`}
+                />
+                <button
+                    type="submit"
+                    className="w-full cursor-pointer  bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition-colors duration-200 shadow-md font-semibold focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                >
+                    {loading ? 'Logging In...' : 'Login'}
+                </button>
+            </form>
+        </div>
+    );
 
-//     let userCheck = userData.includes(emailInput)
-//     let passCheck = userPass.includes(passInput)
+};
 
-//     if (userCheck && passCheck) {
-//       alert("You are logged in successfully!")
-//       navigate('/userportal')
-//     }
-    
-//     else {
-//       alert("Invalid Credentials!")
-
-//       if (!userCheck) {
-//         setEmailError(true)
-//       }
-//       if (!passCheck) {
-//         setPasswordError(true)
-//       }
-//     }
-//   }
-
-//   return (
-//     <div className="userLogin space-y-4">
-//       <form onSubmit={handleSubmit} className="space-y-4">
-        
-//         <input
-//           type="email"
-//           placeholder="Enter User email"
-//           value={email}
-//           onChange={(e) => setEmail(e.target.value)}
-//           className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800
-//             ${emailError ? 'border-red-500 ring-red-500' : 'border-gray-300'}`}
-//         />
-
-//         <input
-//           type="password"
-//           placeholder="Enter password"
-//           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
-
-//           className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800
-//             ${passwordError ? 'border-red-500 ring-red-500' : 'border-gray-300'}`}
-//         />
-//         <button
-//           type="submit"
-//           className="w-full bg-green-600 text-white py-3 rounded-md hover:bg-green-700 transition-colors duration-200 shadow-md font-semibold focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-//         >
-//           User Login
-//         </button>
-//       </form>
-//     </div>
-//   );
-
-// };
-
-// export default UserLogin;
+export default UserLogin;

@@ -7,12 +7,13 @@ import SignupForm from './components/SignupForm'
 const App = () => {
   return (
     <>
+
       <BrowserRouter>
 
         <Routes>
-          <Route element={<UserPortal />} path='/userportal/*' />
           <Route element={<LandingPage />} path='/' />
           <Route element={<SignupForm />} path="/signup" />
+          <Route element={<UserPortal />} path='/userportal/*' />
           <Route element={<AdminPortal />} path='/adminportal/*' />
         </Routes>
 

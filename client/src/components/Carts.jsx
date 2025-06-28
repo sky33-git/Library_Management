@@ -110,12 +110,7 @@ const Cart = () => {
                             <div className="flex justify-between items-center text-xl font-semibold text-gray-800 mb-2">
                                 Total Books :<span>{totalBooks}</span>
                             </div>
-
-                            <button
-                                className="w-full bg-green-600 text-white py-3 rounded-md mt-8 hover:bg-green-700
-                                 transition-colors duration-200 text-lg font-bold shadow-md cursor-pointer" >
-                                Proceed to Checkout
-                            </button>
+                            
                         </div>
                     </>
                 )}

@@ -16,14 +16,14 @@ const Navbar = () => {
               <li><NavLink to="/adminportal" className={linkStyle}>HOME</NavLink></li>
               <li><NavLink to="/adminportal/books" className={linkStyle}>BOOKS</NavLink></li>
               <li><NavLink to="/adminportal/addbooks" className={linkStyle}>ADD BOOKS</NavLink></li>
-              <li><NavLink to="/login" className={linkStyle}>LOGOUT</NavLink></li>
+              <li><NavLink to="/" className={linkStyle}>LOGOUT</NavLink></li>
             </>
           ) : (
             <>
               <li><NavLink to="/userportal" className={linkStyle}>HOME</NavLink></li>
               <li><NavLink to="/userportal/books" className={linkStyle}>BOOKS</NavLink></li>
               <li><NavLink to="/userportal/carts" className={linkStyle}>CART</NavLink></li>
-              <li><NavLink to="/login" className={linkStyle}>LOGOUT</NavLink></li>
+              <li><NavLink to="/" className={linkStyle}>LOGOUT</NavLink></li>
             </>
           )}
         </ul>
