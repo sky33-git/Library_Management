@@ -13,11 +13,15 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    try {
-        const book = await Book.findOne({ id: req.params.id }, { _id: 0 })
 
-        res.json(book);
+    let bookId = req.params.id
+    console.log(bookId);
+    
+    try {
+        const book = await Book.findOne({ id: bookId }, { _id: 0 })
+
         if (!book) return res.status(404).json({ message: 'Book not found' })
+        res.json(book);
 
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -30,6 +34,7 @@ router.post('/', async (req, res) => {
         status, authors, categories } = req.body;
 
     // let id = books.length + 1
+
 
     let year = new Date().getFullYear
     let date = new Date().getDate + 1
@@ -90,7 +95,7 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const book = await Book.findOne({ id: req.params.id }, {_id: 0});
+        const book = await Book.findOne({ id: req.params.id }, { _id: 0 });
         if (!book) return res.status(404).json({ message: 'Book not found' });
 
         await Book.deleteOne({ id: req.params.id });
