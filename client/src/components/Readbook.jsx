@@ -22,7 +22,7 @@ const Readbook = () => {
         setLoading(true)
         setError(null)
 
-        const response = await axios.get(`https://library-management-jguy.onrender.com/${bookId}`)
+        const response = await axios.get(`https://library-management-jguy.onrender.com/api/books/${bookId}`)
         setBook(response.data);
       }
       catch (err) {
@@ -31,11 +31,13 @@ const Readbook = () => {
       }
       finally {
         setLoading(false);
+        console.log(book);
+        
       }
     }
 
     fetchBook()
-  }, [bookId])
+  }, [])
 
   const {
     title,
@@ -48,21 +50,22 @@ const Readbook = () => {
     longDescription,
   } = book;
 
+
   const formatArray = (arr) => (Array.isArray(arr) ? arr.join(", ") : arr || "N/A")
 
   const toggleShortDescription = () => {
-    setShowShortDescription((prev) => !prev);
+    setShowShortDescription((prev) => !prev)
   };
 
   const toggleLongDescription = () => {
-    setShowLongDescription((prev) => !prev);
+    setShowLongDescription((prev) => !prev)
   }
 
   const handleBackButtonClick = () => {
     if (isAdminPath) {
-      navigate("/adminportal/books");
+      navigate("/adminportal/books")
     } else {
-      navigate("/userportal/books");
+      navigate("/userportal/books")
     }
   }
 

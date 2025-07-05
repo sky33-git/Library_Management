@@ -56,6 +56,8 @@ const Addbooks = () => {
       if (response.status === 201 || response.status === 200) {
         setSubmissionStatus('success')
         setSubmissionMessage('Book added to the library successfully!')
+        console.log(newBook);
+        
 
         setBookData({
           title: '',

@@ -5,8 +5,8 @@ const Books = () => {
   const [books, setBooks] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchData, setSearchData] = useState('');
-  const [loading, setLoading] = useState(true); // Added loading state
-  const [error, setError] = useState(null); // Added error state
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate();
   const loc = useLocation();
@@ -29,6 +29,7 @@ const Books = () => {
         const resData = await response.json()
         setBooks(resData)
         setFilteredData(resData)
+        // console.log(resData);
       }
       catch (err) {
         console.error("Error fetching books:", err);
@@ -36,6 +37,7 @@ const Books = () => {
       }
       finally {
         setLoading(false)
+              
       }
     }
 
@@ -59,7 +61,7 @@ const Books = () => {
 
     if (window.confirm(`Do you want to delete "${title}" book?`)) {
       try {
-        const response = await fetch(`http://localhost:5000/api/books/${id}`, { method: 'DELETE' })
+        const response = await fetch(`https://library-management-jguy.onrender.com/api/books${id}`, { method: 'DELETE' })
 
         if (!response.ok) {
           throw new Error(`Failed to delete book: ${response.status}`)
@@ -80,43 +82,42 @@ const Books = () => {
     if (window.confirm(`Do you want to add "${bookToAdd.title}" book to your Cart?`)) {
       try {
 
-        const response = await fetch('http://localhost:5000/api/carts', {
+        const response = await fetch('https://library-management-jguy.onrender.com/api/carts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bookToAdd),
         })
 
         if (!response.ok) {
-          throw new Error(`Failed to add to cart: ${response.status}`);
+          throw new Error(`Failed to add to cart: ${response.status}`)
         }
 
         alert(`"${bookToAdd.title}" Book is added to your Cart!`)
       }
       catch (err) {
         console.error("Error adding to cart:", err);
-        alert(`Failed to add "${bookToAdd.title}" Book to cart. Error: ${err.message}`);
+        alert(`Failed to add "${bookToAdd.title}" Book to cart. Error: ${err.message}`)
       }
     }
     else {
-      alert(`"${bookToAdd.title}" Book is not added!`);
+      alert(`"${bookToAdd.title}" Book is not added!`)
     }
   }
 
   const applyFilters = () => {
-   
-    let currentData = [...books];
+
+    let currentData = [...books]
     if (searchData) {
       currentData = currentData.filter(
         (ele) => ele.title.toLowerCase().includes(searchData.toLowerCase())
-      );
+      )
     }
-
     setFilteredData(currentData);
   }
 
   useEffect(() => {
-    applyFilters()
 
+    applyFilters()
   }, [searchData, books])
 
   const bigBook = () => {
@@ -153,7 +154,7 @@ const Books = () => {
           </button>
         </div>
 
-        <div className="flex gap-4 flex-wrap justify-center sm:justify-start"> 
+        <div className="flex gap-4 flex-wrap justify-center sm:justify-start">
           <button
             onClick={bigBook}
             className="bg-indigo-600 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-indigo-700 transition whitespace-nowrap"
@@ -193,7 +194,7 @@ const Books = () => {
 
       {!loading && !error && filteredData.length > 0 ? (
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"> 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
           {filteredData.map(
 
@@ -212,7 +213,7 @@ const Books = () => {
 
                 <div className="w-full p-6 flex flex-col justify-between flex-grow">
                   <h3 className="text-2xl font-semibold mb-4 text-purple-900">{title}</h3>
-                  <table className="table-auto w-full text-left text-gray-700 mb-4 text-sm md:text-base"> 
+                  <table className="table-auto w-full text-left text-gray-700 mb-4 text-sm md:text-base">
                     <tbody>
                       <tr>
                         <td className="py-1 font-medium pr-2 whitespace-nowrap">Reg No:</td>
@@ -228,7 +229,7 @@ const Books = () => {
                       </tr>
                       <tr className="bg-gray-50">
                         <td className="py-1 font-medium pr-2 whitespace-nowrap">Categories:</td>
-                        <td className="py-1">{Array.isArray(categories) ? categories.join(', ') : categories || 'N/A'}</td> 
+                        <td className="py-1">{Array.isArray(categories) ? categories.join(', ') : categories || 'N/A'}</td>
                       </tr>
                       <tr>
                         <td className="py-1 font-medium pr-2 whitespace-nowrap">Page Count:</td>
